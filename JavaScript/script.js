@@ -1,5 +1,6 @@
 const createCelle = function () {
   const celleTombola = document.getElementById("celle");
+
   for (let i = 0; i < 90; i++) {
     const cella = document.createElement("div");
     cella.className = "cella";
@@ -16,10 +17,31 @@ const randomNumberPicker = function () {
   button.innerText = "Estrai un numero!";
   buttonContainer.appendChild(button);
 
+  const numsArrayMaker = function (num) {
+    const nums = [];
+    for (let i = 0; i < num; i++) {
+      nums.push(i + 1);
+    }
+    return nums;
+  };
+
+  const numsArray = numsArrayMaker(90);
+
   buttonContainer.onclick = function () {
-    const randomNumbers = [];
-    for (let i = 0; i < 90; i++) {
-      randomNumbers.push(Math.ceil(Math.random() * 90));
+    if (numsArray.length > 0) {
+      const randomIndex = Math.floor(Math.random() * numsArray.length);
+      const numeroEstratto = numsArray.splice(randomIndex, 1)[0];
+      console.log(numeroEstratto);
+
+      document.querySelectorAll(".cella h3").forEach((h3) => {
+        if (parseInt(h3.innerText) === numeroEstratto) {
+          h3.parentElement.classList.add("selected");
+        }
+      });
+
+      return numeroEstratto;
+    } else {
+      alert("Era l'ultima estrazione!");
     }
   };
 };
